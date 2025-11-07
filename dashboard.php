@@ -92,10 +92,11 @@
             <h2>Daftar Barang</h2>
             <p>Daftar pembelian dibuat secara acak tiap kali halaman dimuat</p>
                 <?php
-                    for ($i=0; $i < rand(1, $jumlah_barang); $i++) {
+                    for ($i=0; $i < rand(1, $jumlah); $i++) {
                         $beli = rand(1, 10);
-                        $id_barang = rand(0, $jumlah_barang);
-                        $harga = $harga_barang[$i] * $beli;
+                        $id_barang = rand(0, $jumlah);
+                        $total = $harga_barang[$i] * $beli;
+                        $grandtotal += $total;
                     }
                 ?>
         </main>
