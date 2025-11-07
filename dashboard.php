@@ -23,6 +23,12 @@
         3000, 2500, 5000, 6000, 4000
     ];
 
+    $jumlah = count($nama_barang) - 1;
+    $beli = 0;
+    $total = 0;
+    $grandtotal = 0
+
+
 ?>
 
 
@@ -81,5 +87,19 @@
                 <a href="logout.php">Logout</a>
             </div>
         </header>
+
+        <main>
+            <h2>Daftar Barang</h2>
+            <p>Daftar pembelian dibuat secara acak tiap kali halaman dimuat</p>
+                <?php
+                    for ($i=0; $i < rand(1, $jumlah_barang); $i++) {
+                        $beli = rand(1, 10);
+                        $id_barang = rand(0, $jumlah_barang);
+                        $harga = $harga_barang[$i] * $beli;
+                    }
+                ?>
+        </main>
+
+
     </body>
 </html>
