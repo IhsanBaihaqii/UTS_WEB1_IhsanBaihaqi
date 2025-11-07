@@ -1,3 +1,28 @@
+<?php
+    session_start();
+
+    // Check apakah user sudah login
+    if (isset($_SESSION["username"])) {
+        header("Location: dashboard.php");
+        exit;
+    }
+
+    // Mengecheck apakah ada pengiriman data (post)
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $username = $_POST['username'] ?? ''; //username berasal dari form>input dgn name="username"
+        $password = $_POST['password'] ?? '';
+
+        // Login sederhana (username: admin, password: 1234)
+        if ($username === 'admin' && $password === '1234') {
+            $_SESSION['username'] = $username;
+            $_SESSION['role'] = 'Dosen';
+            header("Location: dashboard.php");
+            exit;
+        } else {
+            $error = "Username atau password salah!";
+        }
+    }
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,6 +50,13 @@
       text-align: center;
       margin-bottom: 20px;
       color: #333;
+    }
+    .msg{
+      color: red;
+      text-align: center;
+      margin-bottom: 15px;
+      background: #ffe0e0;
+      padding: 10px;
     }
     input[type="text"],
     input[type="password"] {
@@ -64,6 +96,11 @@
   <body>
     <main>
       <h1>Polgan Mart</h1> 
+       <?php
+        if (isset($error)) {
+            echo "<p class='msg'>$error</p>";
+        }
+      ?>
       <form action="index.php" method="post">
         <!-- Pengiriman data-->
         Username : <input type="text" name="username" required /><br /><br />
