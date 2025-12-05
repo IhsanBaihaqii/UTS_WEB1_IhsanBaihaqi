@@ -36,13 +36,13 @@
         exit;
     }
 
-    $list_barang = [
-        ["kode_barang" => "B001", "nama_barang" => "Pensil", "harga_barang" => 2000],
-        ["kode_barang" => "B002", "nama_barang" => "Buku Tulis", "harga_barang" => 5000],
-        ["kode_barang" => "B003", "nama_barang" => "Penghapus", "harga_barang" => 1500],
-        ["kode_barang" => "B004", "nama_barang" => "Penggaris", "harga_barang" => 3000],
+    $data_barang = [
+        "BRG001" => ["nama_barang" => "Sabun Mandi", "harga_barang" => 15000],
+        "BRG002" => ["nama_barang" => "Sikat Gigi", "harga_barang" => 12000],
+        "BRG003" => ["nama_barang" => "Pasta Gigi", "harga_barang" => 20000],
+        "BRG004" => ["nama_barang" => "Shampoo", "harga_barang" => 25000],
+        "BRG005" => ["nama_barang" => "Handuk", "harga_barang" => 30000],
     ];
-
     $grandtotal = 0;
 ?>
 
@@ -171,10 +171,10 @@
 
                 <label for="list_barang">Kode Barang</label>
                 <select name="list_barang" id="list_barang">
-                    <option value="">-- Pilih Kode Barang --</option>
-                    <?php foreach ($list_barang as $item): ?>
-                        <option value="<?php echo $item['kode_barang'] . '|' . $item['nama_barang'] . '|' . $item['harga_barang']; ?>">
-                            <?php echo $item['kode_barang'] . " | " . $item['nama_barang'] ?>
+                    <option disabled selected>-- Pilih Kode Barang --</option>
+                    <?php foreach ($data_barang as $kode => $item) : ?>
+                        <option value="<?php echo $kode; ?>">
+                            <?php echo $kode . " | " . $item['nama_barang'] ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -261,13 +261,25 @@
             <?php endif; ?>
         </main>
     </body>
+   
     <script>
-            // Mengisi input kode_barang, nama_barang, harga_barang berdasarkan pilihan list
-    document.getElementById('list_barang').addEventListener('change', function() {
-        var selectedOption = this.value.split('|');
-        document.getElementById('kode_barang').value = selectedOption[0];
-        document.getElementById('nama_barang').value = selectedOption[1];
-        document.getElementById('harga_barang').value = selectedOption[2];
-    });
+        //munculkan nama baranng, harga barang
+        const kodeSelect = document.getElementById('list_barang');
+        const kodeInput = document.getElementById('kode_barang');
+        const namaInput = document.getElementById('nama_barang');
+        const hargaInput = document.getElementById('harga_barang');
+        const barangData = <?php echo json_encode($data_barang); ?>;
+        kodeSelect.addEventListener('change', function() {
+            const selectedKode = this.value;
+            if (barangData[selectedKode]) {
+                namaInput.value = barangData[selectedKode].nama_barang;
+                hargaInput.value = barangData[selectedKode].harga_barang;
+                kodeInput.value = selectedKode;
+            } else {
+                 namaInput.value = '';
+                 hargaInput.value = '';
+            }
+        });
     </script>
+
 </html>
