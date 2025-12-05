@@ -36,6 +36,13 @@
         exit;
     }
 
+    $list_barang = [
+        ["kode_barang" => "B001", "nama_barang" => "Pensil", "harga_barang" => 2000],
+        ["kode_barang" => "B002", "nama_barang" => "Buku Tulis", "harga_barang" => 5000],
+        ["kode_barang" => "B003", "nama_barang" => "Penghapus", "harga_barang" => 1500],
+        ["kode_barang" => "B004", "nama_barang" => "Penggaris", "harga_barang" => 3000],
+    ];
+
     $grandtotal = 0;
 ?>
 
@@ -93,6 +100,13 @@
             width: 90%;
             margin-bottom: 30px;
             padding: 20px;
+        }
+        #list_barang {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
         input[type="text"], input[type="number"] {
             width: 100%;
@@ -154,6 +168,17 @@
         <main>
             <!-- input Kode Barang, nama barang, harga, jumlah -->
             <form action="dashboard.php" method="post">
+
+                <label for="list_barang">Kode Barang</label>
+                <select name="list_barang" id="list_barang">
+                    <option value="">-- Pilih Kode Barang --</option>
+                    <?php foreach ($list_barang as $item): ?>
+                        <option value="<?php echo $item['kode_barang'] . '|' . $item['nama_barang'] . '|' . $item['harga_barang']; ?>">
+                            <?php echo $item['kode_barang'] . " | " . $item['nama_barang'] ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+
                 <label for="kode_barang">Kode Barang</label>
                 <input type="text" name="kode_barang" id="kode_barang" placeholder="Masukkan Kode Barang" required><br>
                 <label for="nama_barang">Nama Barang</label>
@@ -235,7 +260,14 @@
                 </form>
             <?php endif; ?>
         </main>
-
-
     </body>
+    <script>
+            // Mengisi input kode_barang, nama_barang, harga_barang berdasarkan pilihan list
+    document.getElementById('list_barang').addEventListener('change', function() {
+        var selectedOption = this.value.split('|');
+        document.getElementById('kode_barang').value = selectedOption[0];
+        document.getElementById('nama_barang').value = selectedOption[1];
+        document.getElementById('harga_barang').value = selectedOption[2];
+    });
+    </script>
 </html>
