@@ -43,7 +43,7 @@
       margin: 100px auto;
       padding: 30px;
       background: white;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.34);
       border-radius: 8px;
     }
     h1 {
