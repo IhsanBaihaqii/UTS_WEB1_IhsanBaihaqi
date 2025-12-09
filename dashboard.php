@@ -134,7 +134,7 @@
         .container {
             display: flex;
         }
-        input[type="submit"], input[type="reset"] {
+        button {
             width: 40%;
             padding: 10px;
             margin: 10px 1%;
@@ -144,14 +144,18 @@
             color: white;
             cursor: pointer;
         }
-        input[type="reset"] {
+        button[type="reset"] {
             background-color: white;
             color: #333;
             border: 1px solid #ccc;
         }
+        button[name="hapus"] {
+            background-color: red;
+            color: white;
+            border: 1px solid #ccc;
+        }
 
-
-       table {
+        table {
             width: 100%;
             border-collapse: collapse;
         }
@@ -161,7 +165,7 @@
         th, td {
             padding: 10px;
             text-align: left;
-       }
+        }
        
         </style>
     </head>
@@ -204,8 +208,8 @@
                 <label for="jumlah">Jumlah</label>
                 <input type="number" name="jumlah" id="jumlah" placeholder="Masukkan Jumlah" required><br>
                 <div class="container">
-                    <input type="submit" value="Tambahkan" name="tambah_barang">
-                    <input type="reset" value="Batal">
+                    <button type="submit" value="Tambahkan" name="tambah_barang">Tambahkan</button>
+                    <button type="reset" value="Batal">Batal</button>
                 </div>
 
             </form>
@@ -274,7 +278,7 @@
                 </table>
                 <!-- Reset Keranjang -->
                 <form action="dashboard.php" method="get" style="margin-top:20px;">
-                    <input type="submit" value="Reset Keranjang" name="reset">
+                    <button type="submit" name="reset">Reset Keranjang</button>
                 </form>
             <?php endif; ?>
         </main>
