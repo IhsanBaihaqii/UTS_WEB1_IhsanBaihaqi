@@ -1,6 +1,8 @@
 <?php
     session_start();
 
+    include 'koneksi.php';
+
     // Check apakah user sudah login
     if (isset($_SESSION["username"])) {
         header("Location: dashboard.php");
@@ -12,14 +14,20 @@
         $username = $_POST['username'] ?? ''; //username berasal dari form>input dgn name="username"
         $password = $_POST['password'] ?? '';
 
+        $results = mysqli_query($koneksi, "SELECT * FROM tbl_users WHERE username = '$username'");
+
         // Login sederhana (username: admin, password: 1234)
-        if ($username === 'admin' && $password === '1234') {
+        if ($row = mysqli_fetch_assoc($results)) {
+          if ($password == $row['password']) {
             $_SESSION['username'] = $username;
-            $_SESSION['role'] = 'Dosen';
+            $_SESSION['role'] = $row['role'];
             header("Location: dashboard.php");
             exit;
+          } else {
+            $error = "Password salah!";
+          }
         } else {
-            $error = "Username atau password salah!";
+          $error = "Username tidak ditemukan!";
         }
     }
 ?>
