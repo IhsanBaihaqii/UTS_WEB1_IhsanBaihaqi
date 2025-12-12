@@ -1,6 +1,11 @@
 <?php
     session_start();
 
+    include 'koneksi.php';
+
+    $results = mysqli_query($koneksi, "SELECT * FROM tbl_barang");
+    $data_barang = mysqli_fetch_all($results, MYSQLI_ASSOC);
+
     // Cek apakah user sudah login
     if (!isset($_SESSION['username'])) {
         header("Location: login.php");
@@ -21,44 +26,8 @@
             $harga_barang  = (int)($_POST['harga_barang'] ?? 0);
             $jumlah = (int)($_POST['jumlah']  ?? 0);
 
-            $_SESSION['barang'][] = [
-                'kode_barang'  => $kode_barang,
-                'nama_barang'  => $nama_barang,
-                'harga_barang' => $harga_barang,
-                'jumlah'       => $jumlah
-            ];
         }
-
-        if (isset($_POST['hapus'])) {
-            $kode_hapus = $_POST['hapus'];
-            // Cari dan hapus item dari keranjang berdasarkan kode_barang
-            foreach ($_SESSION['barang'] as $index => $item) {
-                if ($item['kode_barang'] === $kode_hapus) {
-                    unset($_SESSION['barang'][$index]);
-                    // Reindex array setelah penghapusan
-                    $_SESSION['barang'] = array_values($_SESSION['barang']);
-                    break;
-                }
-            }
-        }
-
     }
-    $barang = $_SESSION['barang']; 
-    // Reset keranjang jika ada request GET
-    if (isset($_GET["reset"])) {
-        unset($_SESSION['barang']);
-        $barang = null;
-        header("Location: dashboard.php");
-        exit;
-    }
-
-    $data_barang = [
-        "BRG001" => ["nama_barang" => "Sabun Mandi", "harga_barang" => 15000],
-        "BRG002" => ["nama_barang" => "Sikat Gigi", "harga_barang" => 12000],
-        "BRG003" => ["nama_barang" => "Pasta Gigi", "harga_barang" => 20000],
-        "BRG004" => ["nama_barang" => "Shampoo", "harga_barang" => 25000],
-        "BRG005" => ["nama_barang" => "Handuk", "harga_barang" => 30000],
-    ];
     $grandtotal = 0;
 ?>
 
@@ -192,9 +161,9 @@
                 <label for="list_barang">Kode Barang</label>
                 <select name="list_barang" id="list_barang">
                     <option disabled selected>-- Pilih Kode Barang --</option>
-                    <?php foreach ($data_barang as $kode => $item) : ?>
-                        <option value="<?php echo $kode; ?>">
-                            <?php echo $kode . " | " . $item['nama_barang'] ?>
+                    <?php foreach ($data_barang as $index => $item) : ?>
+                        <option value="<?php echo $item["id"]; ?>">
+                            <?php echo $item["kode_barang"] . " | " . $item['nama_barang'] ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
