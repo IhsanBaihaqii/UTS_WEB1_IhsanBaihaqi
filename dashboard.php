@@ -21,13 +21,22 @@
 
         if (isset($_POST["tambah_barang"])) {
             // Proses penambahan barang ke keranjang
-            $kode_barang   = $_POST['kode_barang'] ?? '';
+            $kode_barang   = $data_barang[ $_POST['list_barang'] ]['kode_barang'] ?? '';
             $nama_barang   = $_POST['nama_barang'] ?? '';
             $harga_barang  = (int)($_POST['harga_barang'] ?? 0);
             $jumlah = (int)($_POST['jumlah']  ?? 0);
 
+            $_SESSION['barang'][] = [
+                'kode_barang'  => $kode_barang,
+                'nama_barang'  => $nama_barang,
+                'harga_barang' => $harga_barang,
+                'jumlah'       => $jumlah
+            ];
+
         }
     }
+
+    $barang = $_SESSION['barang'];
 
     $grandtotal = 0;
 ?>
@@ -163,14 +172,12 @@
                 <select name="list_barang" id="list_barang">
                     <option disabled selected>-- Pilih Kode Barang --</option>
                     <?php foreach ($data_barang as $index => $item) : ?>
-                        <option value="<?php echo $item["id"]; ?>">
+                        <option value="<?php echo $index; ?>">
                             <?php echo $item["kode_barang"] . " | " . $item['nama_barang'] ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
 
-                <label for="kode_barang">Kode Barang</label>
-                <input type="text" name="kode_barang" id="kode_barang" placeholder="Masukkan Kode Barang" required><br>
                 <label for="nama_barang">Nama Barang</label>
                 <input type="text" name="nama_barang" id="nama_barang" placeholder="Masukkan Kode Barang" required><br>
                 <label for="harga_barang">Harga</label>
@@ -257,19 +264,18 @@
     <script>
         //munculkan nama baranng, harga barang
         const kodeSelect = document.getElementById('list_barang');
-        const kodeInput = document.getElementById('kode_barang');
         const namaInput = document.getElementById('nama_barang');
         const hargaInput = document.getElementById('harga_barang');
+
         const barangData = <?php echo json_encode($data_barang); ?>;
         kodeSelect.addEventListener('change', function() {
             const selectedKode = this.value;
             if (barangData[selectedKode]) {
                 namaInput.value = barangData[selectedKode].nama_barang;
                 hargaInput.value = barangData[selectedKode].harga;
-                kodeInput.value = selectedKode;
             } else {
-                 namaInput.value = '';
-                 hargaInput.value = '';
+                namaInput.value = '';
+                hargaInput.value = '';
             }
         });
     </script>
