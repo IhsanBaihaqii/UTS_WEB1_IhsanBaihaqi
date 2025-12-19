@@ -28,6 +28,7 @@
 
         }
     }
+
     $grandtotal = 0;
 ?>
 
@@ -264,7 +265,7 @@
             const selectedKode = this.value;
             if (barangData[selectedKode]) {
                 namaInput.value = barangData[selectedKode].nama_barang;
-                hargaInput.value = barangData[selectedKode].harga_barang;
+                hargaInput.value = barangData[selectedKode].harga;
                 kodeInput.value = selectedKode;
             } else {
                  namaInput.value = '';
