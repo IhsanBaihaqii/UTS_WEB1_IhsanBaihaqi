@@ -26,13 +26,20 @@
             $harga_barang  = (int)($_POST['harga_barang'] ?? 0);
             $jumlah = (int)($_POST['jumlah']  ?? 0);
 
-            $_SESSION['barang'][] = [
+            $_SESSION['barang'][$kode_barang] = [
                 'kode_barang'  => $kode_barang,
                 'nama_barang'  => $nama_barang,
                 'harga_barang' => $harga_barang,
                 'jumlah'       => $jumlah
             ];
 
+        }
+    }
+// Fungsi Menghapus
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        if (isset($_GET["hapus"])) {
+            unset($_SESSION['barang'][$_GET["hapus"]]);
+            header("Location: dashboard.php");
         }
     }
 
@@ -235,7 +242,7 @@
                     echo "<td style='text-align:right;'>" . number_format($harga_barang,  0, ',', '.') . "</td>";
                     echo "<td style='text-align:center;'>" . $jumlah . "</td>";
                     echo "<td style='text-align:right;'>" . number_format($total_harga,  0, ',', '.'). "</td>";
-                    echo "<td style='text-align:center;'> <form method='post'><button type='submit' name='hapus' value=$kode_barang>Hapus</button></form> </td>";
+                    echo "<td style='text-align:center;'> <form method='GET'><button type='submit' name='hapus' value=$kode_barang>Hapus</button></form> </td>";
                     echo "</tr>";
                 }
                 ?>
