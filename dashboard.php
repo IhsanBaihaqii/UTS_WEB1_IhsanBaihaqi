@@ -41,6 +41,10 @@
             unset($_SESSION['barang'][$_GET["hapus"]]);
             header("Location: dashboard.php");
         }
+        if (isset($_GET["reset"])) {
+            $_SESSION['barang'] = [];
+            header("Location: dashboard.php");
+        }
     }
 
     $barang = $_SESSION['barang'];
